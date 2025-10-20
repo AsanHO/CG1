@@ -235,9 +235,18 @@ public:
 
 	void Update()
 	{
-		std::vector<Vec4> pixels(canvasWidth * canvasHeight, Vec4{0.8f, 0.8f, 0.8f, 1.0f});
-		pixels[0 + canvasWidth * 0] = Vec4{ 1.0f, 0.0f, 0.0f, 1.0f };
-		pixels[1 + canvasWidth * 0] = Vec4{ 1.0f, 1.0f, 0.0f, 1.0f };
+		//static int i = 0;
+		//i++;
+		
+		std::vector<Vec4> pixels(canvasWidth * canvasHeight, Vec4{backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f}); //{ R,G,B,A}
+		//pixels[i] = Vec4{ 1.0f, 0.0f, 0.0f, 1.0f };
+		//if (i == canvasHeight * canvasWidth-1) 
+		//{
+		//	i = 0;
+		//}
+		
+			
+		
 
 		// Update texture buffer
 		D3D11_MAPPED_SUBRESOURCE ms;
