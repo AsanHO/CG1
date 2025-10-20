@@ -90,8 +90,8 @@ public:
 		* 여기서 사용하는 방법은 이해하기 더 쉬운 Separable convolution 입니다.
 		*/
 
-		//for(int i = 0; i < 100; i++)
-		//	image.BoxBlur5();
+		for(int i = 0; i < 100; i++)
+			image.BoxBlur5();
 		
 		//for (int i = 0; i < 100; i++)
 		//	image.GaussianBlur5();
@@ -317,29 +317,9 @@ public:
 		pixels[1 + canvasWidth * 0] = Vec4{ 1.0f, 1.0f, 0.0f, 1.0f };
 		*/
 
-		
-
-		for (int j = 0; j < image.height; j++) // y
-		{
-			for (int i = 0; i < image.width; i++) // x
-			{
-				Vec4& pixel = image.GetPixel(i, j);
-				if (i < image.width / 2) {
-					pixel.v[0] = pixel.v[0] * 0.9; // R
-					pixel.v[1] = pixel.v[1] * 0.9; // G
-					pixel.v[2] = pixel.v[2] * 0.9; // B
-
-				}
-				else {
-					pixel.v[0] = pixel.v[0] * 1.1; // R
-					pixel.v[1] = pixel.v[1] * 1.1; // G
-					pixel.v[2] = pixel.v[2] * 1.1; // B
-				}
-				// pixel.v[3] = A 값은 그대로 둠
-			}
-		}
-		
 		//image.Blur(7);
+		 
+		
 		//image.GaussianBlur5();
 
 		// 이미지의 내용을 GPU 메모리로 복사
