@@ -60,6 +60,32 @@ public:
 		* https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1
 		*/
 
+		// 밝기 올리기v1
+		//for (int j = 0; j < image.height; j++) // y
+		//{
+		//	for (int i = 0; i < image.width; i++) // x
+		//	{
+		//		Vec4& pixel = image.GetPixel(i, j);
+		//		pixel.v[0] = pixel.v[0] *3; // R
+		//		pixel.v[1] = pixel.v[1] *3; // G
+		//		pixel.v[2] = pixel.v[2] *3; // B
+		//		// pixel.v[3] = A 값은 그대로 둠
+		//	}
+		//}
+		// 밝기 올리기v2
+		//for (int i = 0; i < image.height* image.width; i++) // y
+		//{
+		//	image.pixels[i].v[0] *= 100.0f; // 이렇게 값이 커지면 오버플로우등이 날수있어 clamp를 써주어야함.
+		//	image.pixels[i].v[1] *= 100.0f;
+		//	image.pixels[i].v[2] *= 100.0f;
+		//}
+		// 밝기 올리기v2
+		for (int i = 0; i < image.height * image.width; i++) // y
+		{
+			image.pixels[i].v[0] = std::clamp(image.pixels[i].v[0] *100.0f,0.0f,1.0f); // 이렇게 값이 커지면 오버플로우등이 날수있어 clamp를 써주어야함.
+			image.pixels[i].v[1] = std::clamp(image.pixels[i].v[1] *100.0f,0.0f,1.0f);
+			image.pixels[i].v[2] = std::clamp(image.pixels[i].v[2] *100.0f,0.0f,1.0f);
+		}
 		/*
 		* 여기서 사용하는 방법은 이해하기 더 쉬운 Separable convolution 입니다.
 		*/
