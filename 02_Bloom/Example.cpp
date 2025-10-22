@@ -148,6 +148,17 @@ void Image::GaussianBlur5()
 		{
 			// 주변 픽셀들의 색을 평균내어서 (i, j)에 있는 픽셀의 색을 변경
 			// this->pixels로부터 읽어온 값들을 평균내어서 pixelsBuffer의 값들을 바꾸기
+			Vec4 neighborColorSum{ 0.0f,0.0f,0.0f ,0.0f };
+			for (int si = 0; si < 5; si++) {
+				Vec4 neighborColor = this->GetPixel(i + si - 2, j);
+				neighborColorSum.v[0] += neighborColor.v[0]*weights[si];
+				neighborColorSum.v[1] += neighborColor.v[1]*weights[si];
+				neighborColorSum.v[2] += neighborColor.v[2]*weights[si];
+			}
+
+			pixelsBuffer[i + this->width * j].v[0] = neighborColorSum.v[0];
+			pixelsBuffer[i + this->width * j].v[1] = neighborColorSum.v[1];
+			pixelsBuffer[i + this->width * j].v[2] = neighborColorSum.v[2];
 
 		}
 	}
@@ -163,7 +174,19 @@ void Image::GaussianBlur5()
 		{
 			// 주변 픽셀들의 색을 평균내어서 (i, j)에 있는 픽셀의 색을 변경
 			// this->pixels로부터 읽어온 값들을 평균내어서 pixelsBuffer의 값들을 바꾸기
+			// 주변 픽셀들의 색을 평균내어서 (i, j)에 있는 픽셀의 색을 변경
+			// this->pixels로부터 읽어온 값들을 평균내어서 pixelsBuffer의 값들을 바꾸기
+			Vec4 neighborColorSum{ 0.0f,0.0f,0.0f ,0.0f };
+			for (int si = 0; si < 5; si++) {
+				Vec4 neighborColor = this->GetPixel(i , j + si - 2);
+				neighborColorSum.v[0] += neighborColor.v[0] * weights[si];
+				neighborColorSum.v[1] += neighborColor.v[1] * weights[si];
+				neighborColorSum.v[2] += neighborColor.v[2] * weights[si];
+			}
 
+			pixelsBuffer[i + this->width * j].v[0] = neighborColorSum.v[0];
+			pixelsBuffer[i + this->width * j].v[1] = neighborColorSum.v[1];
+			pixelsBuffer[i + this->width * j].v[2] = neighborColorSum.v[2];
 		}
 	}
 

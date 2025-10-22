@@ -89,12 +89,12 @@ public:
 		/*
 		* 여기서 사용하는 방법은 이해하기 더 쉬운 Separable convolution 입니다.
 		*/
-
-		for(int i = 0; i < 100; i++)
-			image.BoxBlur5();
 		
-		//for (int i = 0; i < 100; i++)
-		//	image.GaussianBlur5();
+		/*for(int i = 0; i < 100; i++)
+			image.BoxBlur5();*/
+		
+		for (int i = 0; i < 100; i++)
+			image.GaussianBlur5();
 
 		//image.Bloom(0.3f, 1000, 1.0f);// image_1
 
@@ -102,7 +102,7 @@ public:
 
 		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count() / 1000.0 << " sec" << std::endl;
 
-		image.WritePNG("result.png");
+		image.WritePNG("GaussianBlur5.png");
 
 		// this->canvasWidth = image.width
 		// this->canvasHeight = image.height
