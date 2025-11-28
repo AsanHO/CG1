@@ -93,10 +93,10 @@ public:
 		/*for(int i = 0; i < 100; i++)
 			image.BoxBlur5();*/
 		
-		for (int i = 0; i < 100; i++)
-			image.GaussianBlur5();
+		/*for (int i = 0; i < 100; i++)
+			image.GaussianBlur5();*/
 
-		//image.Bloom(0.3f, 1000, 1.0f);// image_1
+		image.Bloom(0.3f, 1000, 1.0f);// (밝은 픽셀의 기준, 가우시안 블러 반복 횟수, 원본이미지에 가우시안블러 이미지를 곱하는 횟수) image_1
 
 		const auto elapsed_time = std::chrono::high_resolution_clock::now() - start_time;
 

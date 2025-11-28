@@ -207,16 +207,23 @@ void Image::Bloom(const float& th, const int& numRepeat, const float& weight)
 	for (int j = 0; j < height; j ++)
 		for (int i = 0; i < width; i++)
 		{
-
-
+			
+			Vec4& rgbs = this->GetPixel(i, j);
+			float Luminance = 0.2126 * rgbs.v[0] + 0.7152 * rgbs.v[1] + 0.0722 * rgbs.v[2];
+			if (Luminance < th) {
+				//std::cout << i <<"x" <<j << " = " << Luminance << " : " << th << std::endl;
+				for (float& rgb : rgbs.v) {
+					rgb = 0.0f;
+				}
+			}
 		}
 
 	// 여기서 Blur하지 않고 결과 확인
-
 	// 밝은 부분만 Blur 
 	for (int i = 0; i < numRepeat; i++)
 	{
-		
+		std::cout << "gaussianBlur count : " << i << std::endl;
+		this->GaussianBlur5();
 	}
 
 	// 여기서 또 한 번 결과 확인
@@ -224,7 +231,12 @@ void Image::Bloom(const float& th, const int& numRepeat, const float& weight)
 	// 밝은 부분만 Blur한 것과 원본 이미지를 더하기 (밝은 부분 Blur에 weight 곱해서 강도 조절)
 	for (int i = 0; i < pixelsBackup.size(); i++)
 	{
+	
 		
-
+			for (int rgb = 0; rgb < 3; rgb++) {
+				
+				this->pixels[i].v[rgb] = std::clamp(pixels[i].v[rgb] *weight+ pixelsBackup[i].v[rgb],0.0f,1.0f);
+			}
+		
 	}
 }
