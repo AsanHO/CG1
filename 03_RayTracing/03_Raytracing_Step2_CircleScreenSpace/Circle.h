@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#define GLM_ENABLE_EXPERIMENTAL
 #include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -16,7 +16,7 @@ namespace hlab
 		glm::vec4 color;
 
 		Circle(const glm::vec2 &center, const float radius, const glm::vec4 &color)
-			: center(center), color(color), radius(radius)
+			: center(center), color(color), radius(radius), radiusSquared(radius*radius)
 		{
 		}
 
@@ -26,7 +26,14 @@ namespace hlab
 		{
 			// TODO: 여기에 원의 방정식을 이용해서 x가 원 안에 들어 있는지 아닌지에 따라
 			//		true나 false 반환
-
+			// x와 원의 중심사이의 거리 계산
+			//float distance = sqrt((x.x - center.x) * (x.x - center.x) + (x.y - center.y) * (x.y - center.y));
+			float distance = glm::length(x-center);
+			//float distance = glm::dot(x-center,x-center);
+			if (distance <= radius) {
+			//if (distance <= radiusSquared) {
+				return true;
+			}
 			return false;
 		}
 	};
