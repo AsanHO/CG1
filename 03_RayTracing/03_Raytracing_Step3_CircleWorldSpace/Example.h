@@ -53,9 +53,18 @@ public:
 		// 여기서 좌표계 변환 구현
 		// 스크린 좌표계는 [0, width-1] x [0, height-1]
 		// 여기서 우리가 정의한 월드(World) 좌표계는 [-aspect, +aspect] x [-1, +1]
-		// 화면비율 aspect = float(width) / height
+		// (0, 0) -> (-aspect,1)
+		// (width-1, height-1) -> (+aspect,-1)
+		// 화면비율 
+		
+		/*
+		float x = 3.56 / 1280 * positionScreen.x - 1.78;
+		float y = -2.0 / 720 * positionScreen.y + 1;*/
 
-		return glm::vec2(0.0f, 0.0f);
+		float aspect = float(width) / height;
+		const float xScale = 2.0f / (width - 1)*aspect ;
+		const float yScale = 2.0f / (height - 1);
+		return glm::vec2(positionScreen.x*xScale - aspect, positionScreen.y*yScale - 1);
 	}
 
 	void Update()
