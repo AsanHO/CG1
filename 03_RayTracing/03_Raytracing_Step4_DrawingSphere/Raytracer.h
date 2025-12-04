@@ -1,8 +1,8 @@
 ﻿#pragma once
-
+#define GLM_ENABLE_EXPERIMENTAL
 #include "Sphere.h"
 #include "Ray.h"
-
+#include <omp.h>
 #include <vector>
 
 namespace hlab
@@ -22,7 +22,7 @@ namespace hlab
 		Raytracer(const int &width, const int &height)
 			: width(width), height(height)
 		{
-			sphere = make_shared<Sphere>(vec3(0.0f, 0.0f, 0.5f), 0.4f, vec3(1.0f, 1.0f, 1.0f));
+			sphere = make_shared<Sphere>(vec3(0.0f, 0.0f, 0.5f), 0.4f, vec3(1.0f, 1.0f, 1.0f)); //(center,radius,colors) 
 		}
 
 		glm::vec3 TransformScreenToWorld(glm::vec2 posScreen)
@@ -52,9 +52,10 @@ namespace hlab
 
 		void Render(std::vector<glm::vec4> &pixels)
 		{
-			std::fill(pixels.begin(), pixels.end(), vec4{0.0f, 0.0f, 0.0f, 1.0f});
+			std::cout << "OpenMP threads: " << omp_get_max_threads() << std::endl;
+			std::fill(pixels.begin(), pixels.end(), vec4{0.0f, 0.0f, 0.0f, 1.0f}); // 배경색 초기화
 
-#pragma omp parallel for
+#pragma omp parallel for collapse(2) // 멀티쓰레딩
 			for (int j = 0; j < height; j++)
 				for (int i = 0; i < width; i++)
 				{
@@ -69,6 +70,7 @@ namespace hlab
 
 					// index에는 size_t형 사용 (index가 음수일 수는 없으니까)
 					// traceRay()의 반환형은 vec3 (RGB), A는 불필요
+					// pixels[좌표] = 광추적리턴값
 					pixels[size_t(i + width * j)] = vec4(traceRay(pixelRay), 1.0f);
 				}
 		}
