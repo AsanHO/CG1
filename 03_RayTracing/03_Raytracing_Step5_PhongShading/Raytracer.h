@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#define GLM_ENABLE_EXPERIMENTAL
 #include "Sphere.h"
 #include "Ray.h"
 #include "Light.h"
@@ -53,16 +53,16 @@ namespace hlab
 				// https://www.scratchapixel.com/lessons/3d-basic-rendering/phong-shader-BRDF
 
 				// Diffuse
-				// const vec3 dirToLight = ...
-				const float diff = 1.0f;
+				const vec3 dirToLight = glm::normalize(light.pos - hit.point);
+				const float diff = glm::max(glm::dot(dirToLight, hit.normal),0.0f); // 세타값
 
 				// Specular
-				// const vec3 reflectDir = ... // r = 2 (n dot l) n - l
-				const float specular = 1.0f;
+				const vec3 reflectDir = 2.0f * glm::dot(dirToLight, hit.normal) *hit.normal - dirToLight; //2 (n dot l) n - l
+				const float specular = glm::pow(glm::max(glm::dot(-ray.dir,reflectDir),0.0f), sphere->alpha);
 
 				return sphere->amb + sphere->diff * diff + sphere->spec * specular * sphere->ks;
-				// return sphere->diff * diff;
-				// return sphere->spec * specular * sphere->ks;
+				 //return sphere->diff * diff;
+				 //return sphere->spec * specular * sphere->ks;
 			}
 		}
 
