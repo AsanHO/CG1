@@ -58,7 +58,7 @@ namespace hlab
 
 				// Specular
 				const vec3 reflectDir = 2.0f * glm::dot(dirToLight, hit.normal) *hit.normal - dirToLight; //2 (n dot l) n - l
-				const float specular = glm::pow(glm::max(glm::dot(-ray.dir,reflectDir),0.0f), sphere->alpha);
+				const float specular = glm::pow(glm::max(glm::dot(-ray.dir,reflectDir),0.0f), sphere->alpha); // 제곱량이 늘어날수록, 반짝거리는 정도(모이는정도)가 커짐
 
 				return sphere->amb + sphere->diff * diff + sphere->spec * specular * sphere->ks;
 				 //return sphere->diff * diff;
