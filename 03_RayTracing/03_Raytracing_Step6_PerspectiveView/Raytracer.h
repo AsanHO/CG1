@@ -1,10 +1,11 @@
 ﻿#pragma once
-
+#define GLM_ENABLE_EXPERIMENTAL
 #include "Sphere.h"
 #include "Ray.h"
 #include "Light.h"
 
 #include <vector>
+#include <algorithm>
 
 namespace hlab
 {
@@ -44,7 +45,7 @@ namespace hlab
 			sphere3->spec = vec3(0.5f);
 			sphere3->alpha = 10.0f;
 
-			// 일부러 역순으로 추가
+			// 일부러 역순으로 추가 -> 버그 유도
 			objects.push_back(sphere3);
 			objects.push_back(sphere2);
 			objects.push_back(sphere1);
@@ -54,16 +55,19 @@ namespace hlab
 
 		Hit FindClosestCollision(Ray& ray)
 		{
+			float closestD = 1000.0f;
 			Hit closest_hit = Hit{ -1.0, dvec3(0.0), dvec3(0.0) };
-
 			for (int l = 0; l < objects.size(); l++)
 			{
 				auto hit = objects[l]->CheckRayCollision(ray);
 
 				if (hit.d >= 0.0f)
 				{
-					hit.obj = objects[l];
-					return hit;
+					if (hit.d < closestD) {
+						closestD = hit.d;
+						closest_hit = hit;
+						closest_hit.obj = objects[l];
+					}
 				}
 			}
 
@@ -108,8 +112,8 @@ namespace hlab
 					// 스크린에 수직인 z방향, 절대값 1.0인 유닉 벡터
 					// Orthographic projection (정투영) vs perspective projection (원근투영)
 
-					const auto rayDir = vec3(0.0f, 0.0f, 1.0f);
-					Ray pixelRay{ pixelPosWorld, rayDir };
+					//const auto rayDir = vec3(0.0f, 0.0f, 1.0f);
+					Ray pixelRay{ pixelPosWorld, glm::normalize(pixelPosWorld - eyePos) };
 
 					pixels[i + width * j] = vec4(glm::clamp(traceRay(pixelRay), 0.0f, 1.0f), 1.0f);
 				}
