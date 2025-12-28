@@ -1,4 +1,6 @@
 ﻿#pragma once
+// Define this before including any GLM headers to enable experimental features
+#define GLM_ENABLE_EXPERIMENTAL
 
 #include "Raytracer.h"
 
