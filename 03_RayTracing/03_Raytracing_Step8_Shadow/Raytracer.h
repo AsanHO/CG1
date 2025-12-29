@@ -1,4 +1,4 @@
-﻿#pragma once
+﻿ #pragma once
 
 #include "Sphere.h"
 #include "Ray.h"
@@ -85,15 +85,21 @@ namespace hlab
 
 			if (hit.d >= 0.0f)
 			{
-				// Diffuse
+				
 				const vec3 dirToLight = glm::normalize(light.pos - hit.point);
-				const float diff = glm::max(dot(hit.normal, dirToLight), 0.0f);
 
-				// Specular
-				const vec3 reflectDir = 2.0f * dot(hit.normal, dirToLight) * hit.normal - dirToLight;
-				const float specular = glm::pow(glm::max(glm::dot(-ray.dir, reflectDir), 0.0f), hit.obj->alpha);
+				Ray shadowRay = { hit.point , dirToLight };
+				vec3 color = hit.obj->amb;
+				if (FindClosestCollision(shadowRay).d < 0.0f) {
+					// Diffuse
+					const float diff = glm::max(dot(hit.normal, dirToLight), 0.0f);
 
-				return hit.obj->amb + hit.obj->dif * diff + hit.obj->spec * specular;
+					// Specular
+					const vec3 reflectDir = 2.0f * dot(hit.normal, dirToLight) * hit.normal - dirToLight;
+					const float specular = glm::pow(glm::max(glm::dot(-ray.dir, reflectDir), 0.0f), hit.obj->alpha);
+					color += hit.obj->dif * diff + hit.obj->spec * specular;
+				}
+				return color;
 			}
 
 			return vec3(0.0f);

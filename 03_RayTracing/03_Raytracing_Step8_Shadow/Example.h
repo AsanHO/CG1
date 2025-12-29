@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#define GLM_ENABLE_EXPERIMENTAL
+#pragma once
 
 #include "Raytracer.h"
 
@@ -43,7 +44,7 @@ public:
 
 public:
 	Example(HWND window, int width, int height)
-		: raytracer(width, height) // 컴퓨터가 느릴 경우 raytracer(width/4, height/4) 같이 해상도 조절 가능
+		: raytracer(width/4, height/4) // 컴퓨터가 느릴 경우 raytracer(width/4, height/4) 같이 해상도 조절 가능
 	{
 		Initialize(window, width, height);
 	}
