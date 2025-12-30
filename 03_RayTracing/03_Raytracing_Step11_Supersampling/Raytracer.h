@@ -134,11 +134,17 @@ namespace hlab
 			const float subdx = 0.5f * dx;
 
 			vec3 pixelColor(0.0f);
-			pixelPos = vec3(pixelPos.x - subdx * 0.5f, pixelPos.y - subdx * 0.5f, pixelPos.z);
+			pixelPos = vec3(pixelPos.x - subdx, pixelPos.y - subdx, pixelPos.z);
 			//[수정] 강의 영상과 달리 subdx에 0.5f를 곱해줬습니다.
-
-			// ...
-
+			
+			for (int j = 0; j < 2; j++)
+			{
+				for (int i = 0; i < 2; i++)
+				{
+					vec3 subPos(pixelPos.x + float(i) * subdx, pixelPos.y + float(j) * subdx, pixelPos.z);
+					pixelColor += traceRay2x2(eyePos, subPos, subdx, recursiveLevel - 1);
+				}
+			}
 			return pixelColor * 0.25f;
 		}
 
@@ -158,7 +164,7 @@ namespace hlab
 					// Ray pixelRay{pixelPosWorld, glm::normalize(pixelPosWorld - eyePos)};
 					// pixels[i + width * j] = vec4(glm::clamp(traceRay(pixelRay), 0.0f, 1.0f), 1.0f);
 
-					const auto pixelColor = traceRay2x2(eyePos, pixelPosWorld, dx, 3); // 마지막 정수가 0이면 픽셀 하나당 한 번 샘플링
+					const auto pixelColor = traceRay2x2(eyePos, pixelPosWorld, dx, 8); // 마지막 정수가 0이면 픽셀 하나당 한 번 샘플링
 					pixels[i + width * j] = vec4(glm::clamp(pixelColor, 0.0f, 1.0f), 1.0f);
 				}
 		}
