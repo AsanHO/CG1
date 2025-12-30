@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#define GLM_ENABLE_EXPERIMENTAL
 #include "Raytracer.h"
 
 #include <windows.h>

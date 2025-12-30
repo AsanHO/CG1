@@ -31,7 +31,7 @@ namespace hlab
 			sphere1->dif = vec3(1.0f, 0.0f, 0.0f);
 			sphere1->spec = vec3(1.0f);
 			sphere1->alpha = 10.0f;
-			sphere1->reflection = 0.5f;
+			sphere1->reflection = 0.5f; // 반사
 			sphere1->transparency = 0.0f;
 			objects.push_back(sphere1);
 
@@ -40,7 +40,7 @@ namespace hlab
 			sphere2->dif = vec3(0.0f, 0.0f, 1.0f);
 			sphere2->spec = vec3(1.0f);
 			sphere2->alpha = 50.0f;
-			sphere2->reflection = 0.0f;
+			sphere2->reflection = 0.2f;
 			objects.push_back(sphere2);
 
 			auto groundTexture = std::make_shared<Texture>("shadertoy_abstract1.jpg");
@@ -50,7 +50,7 @@ namespace hlab
 			ground->dif = vec4(1.0f);
 			ground->spec = vec4(1.0f);
 			ground->alpha = 10.0f;
-			ground->reflection = 0.0f;
+			ground->reflection = 0.2f;
 			ground->ambTexture = groundTexture;
 			ground->difTexture = groundTexture;
 
@@ -107,7 +107,7 @@ namespace hlab
 					glm::vec3 phongColor(0.0f);
 
 					const float diff = glm::max(dot(hit.normal, dirToLight), 0.0f);
-					const vec3 reflectDir = 2.0f * hit.normal * dot(dirToLight, hit.normal) - dirToLight;
+					const vec3 reflectDi5r = 2.0f * hit.normal * dot(dirToLight, hit.normal) - dirToLight;
 					const float specular = glm::pow(glm::max(glm::dot(-ray.dir, reflectDir), 0.0f), hit.obj->alpha);
 
 					if (hit.obj->ambTexture)
@@ -132,14 +132,17 @@ namespace hlab
 
 					color += phongColor * (1.0f - hit.obj->reflection - hit.obj->transparency);
 
-					if (hit.obj->reflection)
+					if (hit.obj->reflection)// 물체가 반사광이 있다면 물체로부터 ray를 한방 더 쏴야함 어떤 방향으로...??
 					{
 						// 여기에 반사 구현
-						// 수치 오류 주의
+						// 수치 오류 주의 (1e-4f를 더해줘야함)
 						// 반사광이 반환해준 색을 더할 때의 비율은 hit.obj->reflection
-
-						//const vec3 reflectedDirection = ...						
-						//color += ...
+						// 완전 반사 방향
+						// 노말벡터 -> 반사광의 방향
+						//	const vec3 reflectDir = 2.0f * hit.normal * dot(dirToLight, hit.normal) - dirToLight;
+						const auto reflectionDirection = normalize(2.0f * hit.normal * dot(-ray.dir, hit.normal)+ ray.dir);
+						Ray reflectionRay{ hit.point + reflectionDirection * 1e-4f, reflectionDirection };
+						color += traceRay(reflectionRay, recurseLevel - 1) * hit.obj->reflection;
 					}
 
 					if (hit.obj->transparency)

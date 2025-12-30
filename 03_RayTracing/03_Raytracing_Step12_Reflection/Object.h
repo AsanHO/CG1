@@ -20,6 +20,7 @@ namespace hlab
         vec3 dif = vec3(0.0f);  // Diffuse
         vec3 spec = vec3(0.0f); // Specular
         float alpha = 10.0f;
+        //주석 해제
         float reflection = 0.0;
         float transparency = 0.0;
 
