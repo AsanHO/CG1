@@ -107,7 +107,7 @@ namespace hlab
 					glm::vec3 phongColor(0.0f);
 
 					const float diff = glm::max(dot(hit.normal, dirToLight), 0.0f);
-					const vec3 reflectDi5r = 2.0f * hit.normal * dot(dirToLight, hit.normal) - dirToLight;
+					const vec3 reflectDir = 2.0f * hit.normal * dot(dirToLight, hit.normal) - dirToLight;
 					const float specular = glm::pow(glm::max(glm::dot(-ray.dir, reflectDir), 0.0f), hit.obj->alpha);
 
 					if (hit.obj->ambTexture)
