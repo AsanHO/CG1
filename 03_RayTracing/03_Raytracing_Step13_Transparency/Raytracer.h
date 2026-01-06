@@ -23,7 +23,7 @@ namespace hlab
 		Light light;
 		vector<shared_ptr<Object>> objects;
 
-		Raytracer(const int &width, const int &height)
+		Raytracer(const int& width, const int& height)
 			: width(width), height(height)
 		{
 			auto sphere1 = make_shared<Sphere>(vec3(0.0f, -0.1f, 1.5f), 1.0f);
@@ -39,8 +39,8 @@ namespace hlab
 
 			auto groundTexture = std::make_shared<Texture>("shadertoy_abstract1.jpg");
 
-			auto ground = make_shared<Square>(vec3(-10.0f, -1.5f, 0.0f), vec3(-10.0f, -1.5f, 10.0f), vec3(10.0f, -1.5f, 10.0f), vec3(10.0f, -1.5f, 0.0f),
-											  vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f));
+			auto ground = make_shared<Square>(vec3(-5.0f, -1.5f, 0.0f), vec3(-5.0f, -1.5f, 5.0f), vec3(5.0f, -1.5f, 5.0f), vec3(5.0f, -1.5f, 0.0f),
+				vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f));
 
 			ground->amb = vec3(1.0f);
 			ground->dif = vec3(1.0f);
@@ -54,7 +54,7 @@ namespace hlab
 
 			auto squareTexture = std::make_shared<Texture>("back.jpg");
 			auto square = make_shared<Square>(vec3(-10.0f, 10.0f, 10.0f), vec3(10.0f, 10.0f, 10.0f), vec3(10.0f, -10.0f, 10.0f), vec3(-10.0f, -10.0f, 10.0f),
-											  vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f));
+				vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f));
 
 			square->amb = vec3(1.0f);
 			square->dif = vec3(0.0f);
@@ -64,15 +64,75 @@ namespace hlab
 			square->ambTexture = squareTexture;
 			square->difTexture = squareTexture;
 
-			objects.push_back(square);
+			auto square2 = make_shared<Square>(vec3(-10.0f, 10.0f, 10.0f), vec3(10.0f, 10.0f, 10.0f), vec3(10.0f, 10.0f, 0.0f), vec3(-10.0f, 10.0f, 0.0f),
+				vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f));
 
-			light = Light{{0.0f, 0.3f, -0.5f}}; // 화면 뒷쪽
+			square2->amb = vec3(1.0f);
+			square2->dif = vec3(0.0f);
+			square2->spec = vec3(0.0f);
+			square2->alpha = 10.0f;
+			square2->reflection = 0.0f;
+			square2->ambTexture = squareTexture;
+			square2->difTexture = squareTexture;
+
+			auto square3 = make_shared<Square>(vec3(-10.0f, 10.0f, 10.0f), vec3(10.0f, 10.0f, 10.0f), vec3(10.0f, 10.0f, 0.0f), vec3(-10.0f, 10.0f, 0.0f),
+				vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f));
+
+			square3->amb = vec3(1.0f);
+			square3->dif = vec3(0.0f);
+			square3->spec = vec3(0.0f);
+			square3->alpha = 10.0f;
+			square3->reflection = 0.0f;
+			square3->ambTexture = squareTexture;
+			square3->difTexture = squareTexture;
+
+			auto leftWall = make_shared<Square>(
+
+
+
+				vec3(-10.0f, -10.0f, 0.0f),
+				vec3(-10.0f, 10.0f, 0.0f),
+				vec3(-10.0f, 10.0f, 10.0f),
+				vec3(-10.0f, -10.0f, 10.0f),
+				vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f));
+
+			leftWall->amb = vec3(1.0f);
+			leftWall->dif = vec3(0.0f);
+			leftWall->spec = vec3(0.0f);
+			leftWall->alpha = 10.0f;
+			leftWall->reflection = 0.0f;
+			leftWall->ambTexture = squareTexture;
+			leftWall->difTexture = squareTexture;
+
+			auto rightWall = make_shared<Square>(
+				vec3(10.0f, 10.0f, 0.0f),
+				vec3(10.0f, 10.0f, 10.0f),
+				vec3(10.0f, -10.0f, 10.0f),
+				vec3(10.0f, -10.0f, 0.0f),
+				vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f));
+
+			rightWall->amb = vec3(1.0f);
+			rightWall->dif = vec3(0.0f);
+			rightWall->spec = vec3(0.0f);
+			rightWall->alpha = 10.0f;
+
+			rightWall->reflection = 0.0f;
+			rightWall->ambTexture = squareTexture;
+			rightWall->difTexture = squareTexture;
+
+			objects.push_back(square);
+			objects.push_back(square2);
+			objects.push_back(square3);
+			objects.push_back(leftWall);
+			objects.push_back(rightWall);
+
+			light = Light{ {0.0f, 0.3f, -0.5f} }; // 화면 뒷쪽
 		}
 
-		Hit FindClosestCollision(Ray &ray)
+		Hit FindClosestCollision(Ray& ray)
 		{
 			float closestD = 1000.0; // inf
-			Hit closestHit = Hit{-1.0, dvec3(0.0), dvec3(0.0)};
+			Hit closestHit = Hit{ -1.0, dvec3(0.0), dvec3(0.0) };
 
 			for (int l = 0; l < objects.size(); l++)
 			{
@@ -96,7 +156,7 @@ namespace hlab
 		}
 
 		// 광선이 물체에 닿으면 그 물체의 색 반환
-		vec3 traceRay(Ray &ray, const int recurseLevel)
+		vec3 traceRay(Ray& ray, const int recurseLevel)
 		{
 			if (recurseLevel < 0)
 				return vec3(0.0f);
@@ -144,7 +204,7 @@ namespace hlab
 				if (hit.obj->reflection)
 				{
 					const auto reflectedDirection = glm::normalize(2.0f * hit.normal * dot(-ray.dir, hit.normal) + ray.dir);
-					Ray reflection_ray{hit.point + reflectedDirection * 1e-4f, reflectedDirection}; // add a small vector to avoid numerical issue
+					Ray reflection_ray{ hit.point + reflectedDirection * 1e-4f, reflectedDirection }; // add a small vector to avoid numerical issue
 
 					color += traceRay(reflection_ray, recurseLevel - 1) * hit.obj->reflection;
 				}
@@ -171,17 +231,18 @@ namespace hlab
 						normal = -hit.normal;
 					}
 
-					// const float cosTheta1 = ... ;
-					// const float sinTheta1 = ... ; // cos^2 + sin^2 = 1
-					// const float sinTheta2 = ... ;
-					// const float cosTheta2 = ... ;
+					const float cosTheta1 = dot(normal, -ray.dir);
+					const float sinTheta1 = sqrt(1 - pow(cosTheta1, 2)); // cos^2 + sin^2 = 1
+					const float sinTheta2 = sinTheta1 / eta;
+					const float cosTheta2 = sqrt(1 - pow(sinTheta2, 2));
 
-					// const vec3 m = glm::normalize(...);
-					// const vec3 a = ...;
-					// const vec3 b = ...;
-					// const vec3 refractedDirection = glm::normalize(a + b); // transmission
+					const vec3 m = glm::normalize(ray.dir + dot(normal, -ray.dir) * normal);
+					const vec3 a = m * sinTheta2;
+					const vec3 b = -normal * cosTheta2;
+					const vec3 refractedDirection = glm::normalize(a + b); // transmission
 
-					// color += ...;
+					Ray refractionRay{ hit.point + refractedDirection * 1e-4f, refractedDirection };
+					color += traceRay(refractionRay, recurseLevel - 1);
 
 					// Fresnel 효과는 생략되었습니다.
 				}
@@ -192,7 +253,7 @@ namespace hlab
 			return vec3(0.0f);
 		}
 
-		void Render(std::vector<glm::vec4> &pixels)
+		void Render(std::vector<glm::vec4>& pixels)
 		{
 			std::fill(pixels.begin(), pixels.end(), vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
@@ -203,7 +264,7 @@ namespace hlab
 				for (int i = 0; i < width; i++)
 				{
 					const vec3 pixelPosWorld = TransformScreenToWorld(vec2(i, j));
-					Ray pixelRay{pixelPosWorld, glm::normalize(pixelPosWorld - eyePos)};
+					Ray pixelRay{ pixelPosWorld, glm::normalize(pixelPosWorld - eyePos) };
 					pixels[i + width * j] = vec4(glm::clamp(traceRay(pixelRay, 5), 0.0f, 1.0f), 1.0f);
 				}
 		}
